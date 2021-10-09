@@ -8,7 +8,7 @@ module Types
     field :name, String, null: true
     field :logo_url, String, null: true
     field :status, String, null: true
-    field :price, String, null: true
+    field :price, String, null: false
     field :price_date, String, null: true
     field :price_timestamp, String, null: true
     field :circulating_supply, String, null: true
