@@ -52,12 +52,9 @@ group :test do
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'webdrivers'
   gem 'rexml'
+  gem "webmock"
   gem 'vcr'
   gem "rspec-graphql_matchers"
-  # gem "rspec-json_expectations"
-  # gem "rspec_junit_formatter"
-  # gem "shoulda-callback-matchers", "~> 1.1.1"
-  # gem "shoulda-matchers"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
