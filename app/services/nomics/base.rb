@@ -1,8 +1,7 @@
 module Nomics
   class Base
     def call(endpoint, params)
-      full_url = api_url(endpoint) + params.to_query
-      result = HTTP.get(full_url).parse
+      HTTP.get(api_url(endpoint) + params.to_query)
     rescue HTTP::Error => e
       'Something has gone wrong: ' + e.message
     end
