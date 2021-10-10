@@ -15,12 +15,11 @@ application up and running.
 - Graphql Schema available
 
 ### Running the tests: 
-`bundle exec rspec`
+- bundle exec rspec
 
 ### Graphql Queries
 
-##### Task 1:
-Retrieve a list of cryptocurrencies given set of tickers
+##### 1) Retrieve a list of cryptocurrencies given set of tickers
 
 ##### Query
 ```graphql
@@ -45,10 +44,12 @@ query cryptocurrenciesByTickers{
       "circulating_supply": "18839293",
       "max_supply": "21000000",
       .......
+    }
+  ]
+}
 ```
 
-##### Task 2: 
-Retrieve a (list) specific crypto currency and specific values based on the ticker and any other dynamic params
+##### 2) Retrieve a (list) specific crypto currency and specific values based on the ticker and any other dynamic params
 
 ##### Query
 ```graphql
@@ -93,8 +94,7 @@ query cryptocurrenciesByDynamicParams{
 }
 ```
 
-##### Task 3: 
-Retrieve a specific cryptocurrency to specific fiat. Ie: BTC in ZAR or ETH in USD
+##### 3) Retrieve a specific cryptocurrency to specific fiat. Ie: BTC in ZAR or ETH in USD
 
 ##### Query
 ```graphql
@@ -130,8 +130,7 @@ query currenciesByDynamicParamsFiat{
 }
 ```
 
-##### Task 4: 
-Calculate the price of one cryptocurrency from another, in relation to their dollar value
+##### 4) Calculate the price of one cryptocurrency from another, in relation to their dollar value
 
 ##### Query
 ```graphql
