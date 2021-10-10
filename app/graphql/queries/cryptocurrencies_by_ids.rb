@@ -7,7 +7,12 @@ module Queries
     type GraphQL::Types::JSON, null: true
 
     def resolve(args)
-      Nomics::Cryptocurrency.new(params(args)).currencies_by_ids
+      query(args)
+    end
+
+    def query(args)
+      result = Nomics::Cryptocurrency.new(params(args)).currencies_by_ids
+      result.parse
     end
 
     private 
