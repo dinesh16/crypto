@@ -3,22 +3,158 @@
 This README would normally document whatever steps are necessary to get the
 application up and running.
 
-Things you may want to cover:
+## Prerequisites
+- Using Ruby 3.0 and Rails 6.0
+- Clone the git repository
+- bundle install
+- Install [Ruby](https://www.ruby-lang.org/en/downloads/) 3.0.0
+- Update credentials: rails credentials:edit --environment development
+- Run rails serer: rails s
+- Go to graphql endpoint: http://localhost:3000/graphiql
+- Run below query 
+- Graphql Schema available
 
-* Ruby version
+### Running the tests: 
+`bundle exec rspec`
 
-* System dependencies
+### Graphql Queries
 
-* Configuration
+##### Task 1:
+Retrieve a list of cryptocurrencies given set of tickers
 
-* Database creation
+##### Query
+```graphql
+query cryptocurrenciesByTickers{
+  cryptocurrenciesByIds(ids: ["BTC", "XRP"])
+}
 
-* Database initialization
+```
+##### Results
+```graphql
+{
+  "cryptocurrenciesByIds": [
+    {
+      "id": "BTC",
+      "currency": "BTC",
+      "symbol": "BTC",
+      "name": "Bitcoin",
+      "status": "active",
+      "price": "55112.72367904",
+      "price_date": "2021-10-10T00:00:00Z",
+      "price_timestamp": "2021-10-10T00:56:00Z",
+      "circulating_supply": "18839293",
+      "max_supply": "21000000",
+      .......
+```
 
-* How to run the test suite
+##### Task 2: 
+Retrieve a (list) specific crypto currency and specific values based on the ticker and any other dynamic params
 
-* Services (job queues, cache servers, search engines, etc.)
+##### Query
+```graphql
+query cryptocurrenciesByDynamicParams{
+  cryptocurrenciesByDynamicParams(ids: ["KEEP", "BTC"], intervals: [THIRTY_DAYS]){
+    id
+    status
+    circulatingSupply
+    maxSupply
+    name
+    symbol
+    price
+  }
+}
 
-* Deployment instructions
+```
+##### Results
+```graphql
+{
+  "data": {
+    "cryptocurrenciesByDynamicParams": [
+      {
+        "id": "BTC",
+        "status": "active",
+        "circulatingSupply": "18839293",
+        "maxSupply": "21000000",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price": "55098.59538814"
+      },
+      {
+        "id": "KEEP",
+        "status": "active",
+        "circulatingSupply": "549716300",
+        "maxSupply": "1000000000",
+        "name": "Keep Network",
+        "symbol": "KEEP",
+        "price": "0.42422014"
+      }
+    ]
+  }
+}
+```
 
-* ...
+##### Task 3: 
+Retrieve a specific cryptocurrency to specific fiat. Ie: BTC in ZAR or ETH in USD
+
+##### Query
+```graphql
+query currenciesByDynamicParamsFiat{
+  cryptocurrenciesByDynamicParams(ids: ["BTC"], convert: "GBP"){
+    id
+    status
+    circulatingSupply
+    maxSupply
+    name
+    symbol
+    price
+  }
+}
+
+```
+##### Results
+```graphql
+{
+  "data": {
+    "cryptocurrenciesByDynamicParams": [
+      {
+        "id": "BTC",
+        "status": "active",
+        "circulatingSupply": "18839293",
+        "maxSupply": "21000000",
+        "name": "Bitcoin",
+        "symbol": "BTC",
+        "price": "40425.26418477"
+      }
+    ]
+  }
+}
+```
+
+##### Task 4: 
+Calculate the price of one cryptocurrency from another, in relation to their dollar value
+
+##### Query
+```graphql
+query cryptocurrencyDifferenceByValue{
+  cryptocurrencyDifferenceByValue(fromCrypto: "XRP", toCrypto: "DOGE"){
+    fromCrypto
+    toCrypto
+    message
+    value
+  }
+}
+
+```
+##### Results
+```graphql
+{
+  "data": {
+    "cryptocurrencyDifferenceByValue": {
+      "fromCrypto": "XRP",
+      "toCrypto": "DOGE",
+      "message": "1 DOGE == 0.2141914495854032 XRP",
+      "value": 0.2141914495854032
+    }
+  }
+}
+```
