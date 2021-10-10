@@ -5,5 +5,6 @@ module Types
     include GraphQL::Types::Relay::HasNodesField
 
     field :cryptocurrencies_by_ids, resolver: Queries::CryptocurrenciesByIds
+    field :cryptocurrencies_by_dynamic_params, resolver: Queries::CryptocurrenciesByDynamicParams
   end
 end
