@@ -4,18 +4,18 @@ This README would normally document whatever steps are necessary to get the
 application up and running.
 
 ## Prerequisites
-- Using Ruby 3.0 and Rails 6.0
+- Using `Ruby 3.0 and Rails 6.0`
 - Clone the git repository
 - bundle install
 - Install [Ruby](https://www.ruby-lang.org/en/downloads/) 3.0.0
-- Update credentials: rails credentials:edit --environment development
+- Update credentials: `rails credentials:edit --environment development`
 - Run rails serer: rails s
-- Go to graphql endpoint: http://localhost:3000/graphiql
-- Run below query 
-- Graphql Schema available
+- Go to graphql endpoint: [`localhost:3000`](http://localhost:3000/graphiql)
+- View the Graphql Schema
 
 ### Running the tests: 
-- bundle exec rspec
+- Update credentials: `rails credentials:edit --environment test`
+- run `bundle exec rspec`
 
 ### Graphql Queries
 

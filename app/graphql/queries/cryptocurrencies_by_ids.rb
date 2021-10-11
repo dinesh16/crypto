@@ -1,9 +1,9 @@
 module Queries
   class CryptocurrenciesByIds < Queries::BaseQuery
     graphql_name 'CryptocurrenciesByIds'
-    description 'Return cryptocurrencies by its ids, ids: ["BTC", "XRP"] returns all fields'
+    description 'Retrieve a list of cryptocurrencies given set of tickers, ids: ["BTC", "XRP"] returns all fields'
 
-    argument :ids, [ID], required: true
+    argument :ids, [ID], required: true, description: 'eg: ["BTC", "XRP"]'
     type GraphQL::Types::JSON, null: true
 
     def resolve(args)
@@ -11,14 +11,14 @@ module Queries
     end
 
     def query(args)
-      result = Nomics::Cryptocurrency.new(params(args)).currencies_by_ids
-      result.parse
+      response = Nomics::Cryptocurrency.new(params(args)).currencies_by_params
+      response.parse
     end
 
-    private 
+    private
 
     def params(args)
-      { ids: args[:ids].join(',') }
+      { ids: args[:ids].join(',').upcase }
     end
   end
 end

@@ -1,7 +1,7 @@
 module Types
   class IntervalTypeEnum < Types::BaseEnum
-    graphql_name "IntervalTypeEnum"
-    description "interval type enums"
+    graphql_name 'IntervalTypeEnum'
+    description 'interval type enums'
 
     value 'ONC_HOUR', '1h'
     value 'ONE_DAY', '1d'

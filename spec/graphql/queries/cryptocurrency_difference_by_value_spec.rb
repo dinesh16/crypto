@@ -1,8 +1,8 @@
-require "rails_helper"
+require 'rails_helper'
 
 module Queries
   RSpec.describe CryptocurrencyDifferenceByValue, type: :request do
-    describe ".resolve" do
+    describe '.resolve' do
       let(:params) {
         {
           from_crypto: 'XRP',
@@ -17,8 +17,8 @@ module Queries
         }
       }
 
-      it "calculate the price of one cryptocurrency from another, in relation to their dollar value", :vcr do
-        post "/graphql", params: { query: query(params) }
+      it 'calculate the price of one cryptocurrency from another, in relation to their dollar value', :vcr do
+        post '/graphql', params: { query: query(params) }
 
         result = data[:cryptocurrencyDifferenceByValue].with_indifferent_access
         expect(result[:fromCrypto]).to eq(params[:from_crypto])
@@ -29,11 +29,11 @@ module Queries
         expect(errors).to be_nil
       end
 
-      it "return error message when invalid params" do
-        post "/graphql", params: { query: query(invalid_params) }
+      it 'return error message when invalid params', :vcr do
+        post '/graphql', params: { query: query(invalid_params) }
 
         expect(errors).to be_present
-        expect(errors.first[:message]).to include('has an invalid value')
+        expect(errors.first[:message]).to include('Please pass valid values to from_crypto and to_crypto args')
       end
 
       def query(params)

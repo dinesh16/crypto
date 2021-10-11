@@ -1,0 +1,78 @@
+# All Rubocop Cops:
+# https://rubocop.readthedocs.io/en/latest/cops/
+
+AllCops:
+  TargetRubyVersion: 3.0.0
+
+  Exclude:
+    - 'db/**/*'
+    - 'log/**/*'
+    - 'tmp/**/*'
+
+# Skips checking to make sure top level modules / classes have a comment.
+Documentation:
+  Enabled: false
+
+# Style
+# This cop is designed to help you transition from mutable string literals
+# to frozen string literals. It will add the comment # frozen_string_literal:
+# true to the top of files to enable frozen string literals.
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+# Skips checking the style of children definitions at classes and modules.
+#
+# Basically there are two different styles:
+#
+# `nested` - have each child on a separate line
+#   class Foo
+#     class Bar
+#     end
+#   end
+#
+# `compact` - combine definitions as much as possible
+#   class Foo::Bar
+#   end
+#
+# With it disabled, either or is valid.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+# This cop checks that include, extend and prepend statements appear inside
+# classes and modules, not at the top level, so as to not affect the
+# behavior of Object.
+Style/MixinUsage:
+  Enabled: false
+
+# Checks if uses of quotes match the configured preference.
+# In Ruby Style Guidelines both single quotes and double quotes are fine.
+Style/StringLiterals:
+  Enabled: true
+  EnforcedStyle: single_quotes
+
+# Layout
+# This cop checks the indentation of the first key in a hash literal where
+# the opening brace and the first key are on separate lines.
+Layout/FirstHashElementIndentation:
+  Enabled: false
+
+# Metrics
+# This cop checks the length of lines in the source code.
+
+# bad
+# {foo: "0000000000", bar: "0000000000", baz: "0000000000"}
+
+# good (with recommended cops enabled)
+# {
+#   foo: "0000000000",
+#   bar: "0000000000",
+#   baz: "0000000000",
+# }
+Metrics/LineLength:
+  Enabled: true
+  Max: 120
+
+# This cop checks if the length of a method exceeds some maximum value.
+Metrics/MethodLength:
+  Enabled: true
+  Max: 15

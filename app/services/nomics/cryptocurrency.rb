@@ -2,15 +2,12 @@
 module Nomics
   class Cryptocurrency < Nomics::Base
     attr_reader :params
+
     def initialize(params)
       @params = params
     end
 
-    def currencies_by_ids
-      call(currency_ticker_endpoint, params)
-    end
-
-    def currencies_by_dynamic_params
+    def currencies_by_params
       call(currency_ticker_endpoint, params)
     end
 

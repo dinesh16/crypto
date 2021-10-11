@@ -1,6 +1,6 @@
 module Types
   class CryptocurrencyDifferenceType < Types::BaseObject
-    graphql_name "CryptocurrencyDifferenceType"
+    graphql_name 'CryptocurrencyDifferenceType'
 
     field :from_crypto, String, null: false
     field :to_crypto, String, null: false

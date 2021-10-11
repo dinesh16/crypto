@@ -1,7 +1,7 @@
 module Queries
   class CryptocurrencyDifferenceByValue < Queries::BaseQuery
     graphql_name 'CryptocurrenciesDifferenceByValue'
-    description 'Return Cryptocurrencies difference by its dollar value: Ie: 1BTC = $100, 1ETH = $50, therefore 1ETH == 0.5BTC'
+    description 'Calculate the price of one cryptocurrency from another.Ie: 1BTC = $100, 1ETH = $50, So 1ETH == 0.5BTC'
 
     argument :from_crypto, ID, required: true
     argument :to_crypto, ID, required: true
@@ -9,22 +9,24 @@ module Queries
     type Types::CryptocurrencyDifferenceType, null: true
 
     def resolve(args)
-      from_crypto_id = args[:from_crypto]
-      to_crypto_id = args[:to_crypto]
+      from_crypto_id = args[:from_crypto].upcase
+      to_crypto_id = args[:to_crypto].upcase
 
-      results = Nomics::Cryptocurrency.new(params(from_crypto_id, to_crypto_id)).currencies_by_ids
+      response = Nomics::Cryptocurrency.new(params(from_crypto_id, to_crypto_id)).currencies_by_params
+      results = response.parse
 
-      calc(from_crypto_id, to_crypto_id, results.parse)
+      raise GraphQL::ExecutionError, 'Please pass valid values to from_crypto and to_crypto args' if results.count < 2
+
+      calc(from_crypto_id, to_crypto_id, results)
     end
+
+    private
 
     def calc(from_crypto_id, to_crypto_id, results)
       from_crypto = find_crypto_order(results, from_crypto_id)
       to_crypto = find_crypto_order(results, to_crypto_id)
 
-      from_crypto_price = from_crypto['price'].to_f
-      to_crypto_price = to_crypto['price'].to_f
-
-      price_diff = to_crypto_price / from_crypto_price
+      price_diff = to_crypto['price'].to_f / from_crypto['price'].to_f
 
       {
         from_crypto: from_crypto_id,
@@ -34,14 +36,12 @@ module Queries
       }
     end
 
-    private
-
     def find_crypto_order(results, crypto_id)
       results.select { |result| result['id'] == crypto_id }.first
     end
 
     def params(from_crypto_id, to_crypto_id)
-      params = { 
+      {
         ids: [from_crypto_id, to_crypto_id].join(',')
       }
     end

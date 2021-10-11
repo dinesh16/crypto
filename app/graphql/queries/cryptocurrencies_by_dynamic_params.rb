@@ -1,7 +1,7 @@
 module Queries
   class CryptocurrenciesByDynamicParams < Queries::BaseQuery
     graphql_name 'CryptocurrenciesByDynamicParams'
-    description 'Return Cryptocurrencies by id and dynamic params'
+    description 'Return Cryptocurrencies by its ticker and other dynamic params'
 
     argument :ids, [ID], required: true
     argument :convert, String, required: false
@@ -11,25 +11,22 @@ module Queries
     type [Types::CryptocurrencyType], null: true
 
     def resolve(args)
-      result = Nomics::Cryptocurrency.new(params(args)).currencies_by_dynamic_params
-      result.parse
+      response = Nomics::Cryptocurrency.new(params(args)).currencies_by_params
+      response.parse
     end
 
-    private 
+    private
 
     def params(args)
-      params = { 
-        ids: args[:ids].join(',')
-      }
+      params = { ids: args[:ids].join(',').upcase }
       params.merge!(interval: map_intervals(args[:intervals]).join(',')) if args[:intervals].present?
       params.merge!(convert: args[:convert]) if args[:convert].present?
       params.merge!(status: args[:status].downcase) if args[:status].present?
-
       params
     end
 
     def map_intervals(intervals)
-      intervals.map(&:downcase).map(&:to_sym).map do |interval| 
+      intervals.map(&:downcase).map(&:to_sym).map do |interval|
         interval_mapping[interval] if interval_mapping.key?(interval)
       end
     end
